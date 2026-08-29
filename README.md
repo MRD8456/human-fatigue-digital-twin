@@ -29,6 +29,7 @@ After compiling it , you need to actually run it in order to get the actual outp
 Then you should be able to see the output in your terminal window.
 
 KEY DESIGN DESICISIONS:
+
 S+C instead of full four process model :
 
 We decided to use this equations instead of all the others that we had to include if we used the full four process model because based on an article from  Ingrid et al (2014)'s validation study , testing the model against a real airline crew sleep data, found that a simpler S+C performed as well as the fuller model once the circadian was properly calibrated the added ultradian (U) sleep-inertia (W) components did not meaningfully improved the predictive accuracy.
