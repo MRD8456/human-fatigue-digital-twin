@@ -33,6 +33,7 @@ KEY DESIGN DESICISIONS:
 S+C instead of full four process model :
 
 We decided to use this equations instead of all the others that we had to include if we used the full four process model because based on an article from  Ingrid et al (2014)'s validation study , testing the model against a real airline crew sleep data, found that a simpler S+C performed as well as the fuller model once the circadian was properly calibrated the added ultradian (U) sleep-inertia (W) components did not meaningfully improved the predictive accuracy.
+
 Turning S+C into C-S : 
 
 While we were adjusting the new formula that we used as the core of our system it was obvious that both of the variables should represent the same thing in order to be able to do any calculations , so  we faced a problem which was that if we treated the S for sleepiness it would sense for the KSS scale because  it is an scale for alertness and if we change the value of S to alertness in order to match the C value , then we would be stating that the longer you stay awake , the more focused you would get.
