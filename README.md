@@ -6,7 +6,7 @@ where a lapse in alertness from an exhausted worker can lead to serious safety c
 
  HOW IT WORKS :
  
- first we need explain that what a three process model actually models.
+ First we need explain that what a three process model actually models.
 three process model simply combines two separate calculations to predict one output and that is a worker Alertness level , and the two calculations  definitions are :
 
 Process S(Homeostatic): Models "Sleep Pressure" , which builds the longer a workers stays awake and dissipates while they sleep.
@@ -46,8 +46,40 @@ While we decided to use C-S as our core equation , we faced another problem whil
 
 So to address this issue, we decided to change the value of a and b in the original KSS model and replace them with our own calculated number since our equations are different from the equations that resulted the fixed values of a and b.
 
-the final formula resulted as : 9-[(C-S)-(-16.8)/(0.1-(-16.8))]*(9-1) 
+The final formula resulted as : 9-[((C-S)-(-16.8))/(0.1-(-16.8))]*(9-1) 
 
+Using -16.8 and 0.1 are the theoretical min/max that our C-S formula can produce based on known ranges of C and S.
+
+SLEEP RECOVERY LNEAR SLOPE SELF DERIVATION :
+
+The next gap that needed our attention was the sleep recovery gap , meaning how fast does a worker recovers while sleeping.
+
+Based on the papers that were published in 2000s we concluded that the sleep recovery exponential down to a threshold (bl=12.2) and then switches to a straight line below that threshold.
+
+We still could not find the exact numeric slope of that linear segment, but we know that it should have these two constraints:
+
+It must connect smoothly to the exponential curve exactly at the point where S=bl=12.2.
+
+It must reach la=2.4 a full recovery.
+
+So if we know how many hours of sleep does it take from "just fell sleep" state to the full recovered state then we could come up with our own linear recovery segment. So the slope of the line is :
+
+S=12.2 - 1.225 * t-sleep "hours spent sleeping"
+
+And for testing this formula we could put 8 hours as our t-sleep value and it should give us 2.4 (12.2-1.225*8=2.4) which is and the reason we chose 8 hours is because usually that is how long does it take for a person to reach a full recovered state after sleeping.
+
+We also needed exponential formula for the phase before reaching the break threshold , which we sourced directly from the literature(unlike the linear formula) :
+
+S(t-sleep)=la + (ss-la)*e^(g*t-sleep)
+
+Where the ss represents the S value the moment the worker fell sleep which comes from the awake formula.
+
+And g representing the decay rate for the exponential phase , it controls how fast S drops towards the break threshold(bl=12.2) while a worker is still significantly sleep deprived, before the linear phase kicks in.
+
+
+But in order to calculate the exact moment that we switch to our linear segment , we need to use logarithms and after 3 steps of calculations we found the final result which is :
+
+T-sleep=ln[9.8/(ss-2.4)]/g
 
 Deciding a 12% break bonus :
 
