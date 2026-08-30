@@ -30,9 +30,11 @@ Then you should be able to see the output in your terminal window.
 
 KEY DESIGN DESICISIONS:
 
+
 S+C instead of full four process model :
 
 We decided to use this equations instead of all the others that we had to include if we used the full four process model because based on an article from  Ingrid et al (2014)'s validation study , testing the model against a real airline crew sleep data, found that a simpler S+C performed as well as the fuller model once the circadian was properly calibrated the added ultradian (U) sleep-inertia (W) components did not meaningfully improved the predictive accuracy.
+
 
 Turning S+C into C-S : 
 
@@ -40,7 +42,8 @@ While we were adjusting the new formula that we used as the core of our system i
 
 So to address this issue we gave the S a negative value in our equation which resulted in the C-S formula, which is supported by a simple example where we calculated the following values using the related equations  S(taw=0)=2.4-just woke up , minimal sleep pressure- S(taw=24)=9.20-24 hours awake- this example shows that choosing the C-S as the core of our program is an accurate decision.
 
-Custom KSS model :
+
+CUSTOM KSS MODEL :
 
 While we decided to use C-S as our core equation , we faced another problem while we were testing the actual equation and that was the resulted number exceeded from the normal KSS model max which was 9.
 
@@ -49,6 +52,7 @@ So to address this issue, we decided to change the value of a and b in the origi
 The final formula resulted as : 9-[((C-S)-(-16.8))/(0.1-(-16.8))]*(9-1) 
 
 Using -16.8 and 0.1 are the theoretical min/max that our C-S formula can produce based on known ranges of C and S.
+
 
 SLEEP RECOVERY LNEAR SLOPE SELF DERIVATION :
 
@@ -81,7 +85,8 @@ But in order to calculate the exact moment that we switch to our linear segment 
 
 T-sleep=ln[9.8/(ss-2.4)]/g
 
-Deciding a 12% break bonus :
+
+DECIDING THE 12% BREAK BONUS :
 
 While we were trying to finalize a formula for break bonus so that we could add it to our core C-S formula so that we could include energy boost from taking a break, to add this break bonus we had choice of using a percentage between 10%-15% of model's total range which makes it around (1.5-2.5)  and to accurately choose the number , we used a simple example in order to find out which number would make more common sense in the real world and represents a better safety flagging if included in our equation.
 
