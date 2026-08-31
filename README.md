@@ -91,3 +91,12 @@ DECIDING THE 12% BREAK BONUS :
 While we were trying to finalize a formula for break bonus so that we could add it to our core C-S formula so that we could include energy boost from taking a break, to add this break bonus we had choice of using a percentage between 10%-15% of model's total range which makes it around (1.5-2.5)  and to accurately choose the number , we used a simple example in order to find out which number would make more common sense in the real world and represents a better safety flagging if included in our equation.
 
 For the example we considered a worker that has been awake for 10 hours (Alertness-level=-3.501).At break bonus=15% which almost equals 2.54 bonus, that worker's score would jump to nearly neutral(-0.96) right after the break which is suggesting that the break erased all signs of tiredness signals but if we fix the break bonus on 12%  and redo the calculations we realize that it only produces a -1.5 after bonus which is more realistic and better in case of safety flagging. So we decided to use 12% of the whole model's alertness range as our break bonus.
+
+HOUR-OUTER INSTEAD OF WOKER-INNER :
+
+We to loop through time first, and workers second , rather than the reverse. With the worker outer , the output would show one worker's entire shift before moving to next , meaning a supervisor could see a live snapshot of everyone's status at a single point in time without reading through separate blocks and cross referencing timestamps. 
+
+The hour-outer means the output naturally groups by moment , matching how a real safety supervisor would actually want to check "who is at the risk right now".
+
+We used  15 minutes timestamps instead of hourly because we initially simulated in one hour steps, bit discovered this was way too coarse to observe the break bonus mechanism, which decays to near zero in about 45 minutes faster than our sampling interval could catch. Switching to 15 minutes steps let the break's real effect actually appear in the output.
+
