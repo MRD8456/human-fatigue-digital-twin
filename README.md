@@ -31,12 +31,12 @@ Then you should be able to see the output in your terminal window.
 KEY DESIGN DESICISIONS:
 
 
-S+C instead of full four process model :
+S+C INSTEAD OF FOUR PROCESS MODEL  :
 
 We decided to use this equations instead of all the others that we had to include if we used the full four process model because based on an article from  Ingrid et al (2014)'s validation study , testing the model against a real airline crew sleep data, found that a simpler S+C performed as well as the fuller model once the circadian was properly calibrated the added ultradian (U) sleep-inertia (W) components did not meaningfully improved the predictive accuracy.
 
 
-Turning S+C into C-S : 
+TURNING S+C INTO C-S : 
 
 While we were adjusting the new formula that we used as the core of our system it was obvious that both of the variables should represent the same thing in order to be able to do any calculations , so  we faced a problem which was that if we treated the S for sleepiness it would sense for the KSS scale because  it is an scale for alertness and if we change the value of S to alertness in order to match the C value , then we would be stating that the longer you stay awake , the more focused you would get.
 
@@ -92,6 +92,16 @@ While we were trying to finalize a formula for break bonus so that we could add 
 
 For the example we considered a worker that has been awake for 10 hours (Alertness-level=-3.501).At break bonus=15% which almost equals 2.54 bonus, that worker's score would jump to nearly neutral(-0.96) right after the break which is suggesting that the break erased all signs of tiredness signals but if we fix the break bonus on 12%  and redo the calculations we realize that it only produces a -1.5 after bonus which is more realistic and better in case of safety flagging. So we decided to use 12% of the whole model's alertness range as our break bonus.
 
+FIXED VALUE FOR DECAY RATE (K) :
+
+The problem that we faced here was regarding the K value which is how fast does a break bonus fades and logically it would make sense for the break bonus fades faster , the shorter the break time is but we modeled a single decay rate for break recovery across all break duration.
+
+Real world recovery likely varies by break type , which we did not have data to support and leave as a direction for future refinements.
+
+Because we are using a single fixed value for K , we decided to put it in the area of 45 minutes because it was a solid middle ground because the shorter decay rate would prevent workers tiredness level to be covered completely by the break bonus, so if we put it inside the following equation e^(-K*0.75) , it would give us 0.05 which shows how long does it take for the break bonus to drop to 5% of its original value.
+
+So we calculated 4.0 as our fixed value for K.
+
 HOUR-OUTER INSTEAD OF WOKER-INNER :
 
 We to loop through time first, and workers second , rather than the reverse. With the worker outer , the output would show one worker's entire shift before moving to next , meaning a supervisor could see a live snapshot of everyone's status at a single point in time without reading through separate blocks and cross referencing timestamps. 
@@ -100,3 +110,17 @@ The hour-outer means the output naturally groups by moment , matching how a real
 
 We used  15 minutes timestamps instead of hourly because we initially simulated in one hour steps, bit discovered this was way too coarse to observe the break bonus mechanism, which decays to near zero in about 45 minutes faster than our sampling interval could catch. Switching to 15 minutes steps let the break's real effect actually appear in the output.
 
+
+REFERENCES : 
+
+1- Åkerstedt, T., & Folkard, S. (1997). The three-process model of alertness and its extension to performance, sleep latency, and sleep length. Chronobiology International, 14(2), 115–123.
+
+2- Åkerstedt, T., Ingre, M., Kecklund, G., Folkard, S., & Axelsson, J. (2008). Accounting for partial sleep deprivation and cumulative sleepiness in the Three-Process Model of alertness regulation. Chronobiology International, 25(2), 309–319.
+
+3- Ingre, M., Van Leeuwen, W., Klemets, T., Ullvetter, C., Hough, S., Kecklund, G., Karlsson, D., & Åkerstedt, T. (2014). Validating and extending the three process model of alertness in airline operations. PLoS ONE, 9(10).
+
+4- Albulescu, P., Macsinga, I., Rusu, A., Sulea, C., Bodnaru, A., & Tulbure, B. T. (2022). "Give me a break!" A systematic review and meta-analysis on the efficacy of micro-breaks for increasing well-being and performance. PLOS ONE, 17(8).
+
+5- Åkerstedt, T., & Gillberg, M. (1990). Subjective and objective sleepiness in the active individual. International Journal of Neuroscience, 52, 29–37.
+
+References 1–3 support the core S/C alertness formulas; reference 4 informed the break-bonus cap; reference 5 defines the KSS scale used for final output.
